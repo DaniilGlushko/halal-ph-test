@@ -11,30 +11,30 @@
 <style>
 /* Ведомость: бумага, чернила, кирпичный акцент, линейки вместо карточек */
 :root {
-  --bg: #f4f6f3; --card: #ffffff; --ink: #1f2a2e; --text: #3b474b; --muted: #6f7c80; --line: #dde3e0;
-  --accent: #2f7d74; --accent-soft: #dcefeb; --good: #2f8a5b; --good-soft: #e3f2e8; --bad: #b0624a; --bad-soft: #f3e3dc;
-  --hero: #23383c; --hero-ink: #f4f6f3; --hero-muted: #a9bcbe;
-  --s1: #4a7c94; --s2: #a8b9bf; --s3: #d9a46b; --s4: #c9d3d1; --s5: #2f8a5b;
-  --track: #d3dbd8;
+  --bg: #f5f4f1; --card: #ffffff; --ink: #1f2833; --text: #3a4450; --muted: #707a85; --line: #e0e0dc;
+  --accent: #3d6a9e; --accent-soft: #e2eaf4; --good: #2f5f8f; --good-soft: #e4ecf6; --bad: #b0624a; --bad-soft: #f3e3dc;
+  --hero: #22303f; --hero-ink: #f5f4f1; --hero-muted: #a7b3c0;
+  --s1: #4f7aa8; --s2: #b3bcc6; --s3: #d4a373; --s4: #cdd2d8; --s5: #2f5f8f;
+  --track: #d5d8dc;
   --serif: Literata, Georgia, "Times New Roman", serif;
   --sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #141b1d; --card: #1b2427; --ink: #e8efee; --text: #c9d4d2; --muted: #8a9a9b; --line: #2c3a3d;
-    --accent: #6cc1b3; --accent-soft: #1f3533; --good: #7fd1a3; --good-soft: #1b3326; --bad: #d98a70; --bad-soft: #3a2620;
-    --hero: #0f1517; --hero-ink: #e8efee; --hero-muted: #8a9a9b;
-    --s1: #7fa7bd; --s2: #4c5d62; --s3: #c99a62; --s4: #3c4b4f; --s5: #7fd1a3;
-    --track: #2c3a3d;
+    --bg: #14181d; --card: #1b2027; --ink: #e9edf2; --text: #c8d0d9; --muted: #8b95a1; --line: #2c333d;
+    --accent: #8fb4de; --accent-soft: #1f2b3a; --good: #9cc3ee; --good-soft: #1c2a3a; --bad: #d98a70; --bad-soft: #3a2620;
+    --hero: #0f1318; --hero-ink: #e9edf2; --hero-muted: #8b95a1;
+    --s1: #7fa3cc; --s2: #4a5560; --s3: #c99a62; --s4: #3a434d; --s5: #9cc3ee;
+    --track: #2c333d;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #141b1d; --card: #1b2427; --ink: #e8efee; --text: #c9d4d2; --muted: #8a9a9b; --line: #2c3a3d;
-    --accent: #6cc1b3; --accent-soft: #1f3533; --good: #7fd1a3; --good-soft: #1b3326; --bad: #d98a70; --bad-soft: #3a2620;
-    --hero: #0f1517; --hero-ink: #e8efee; --hero-muted: #8a9a9b;
-    --s1: #7fa7bd; --s2: #4c5d62; --s3: #c99a62; --s4: #3c4b4f; --s5: #7fd1a3;
-    --track: #2c3a3d;
+  --bg: #14181d; --card: #1b2027; --ink: #e9edf2; --text: #c8d0d9; --muted: #8b95a1; --line: #2c333d;
+    --accent: #8fb4de; --accent-soft: #1f2b3a; --good: #9cc3ee; --good-soft: #1c2a3a; --bad: #d98a70; --bad-soft: #3a2620;
+    --hero: #0f1318; --hero-ink: #e9edf2; --hero-muted: #8b95a1;
+    --s1: #7fa3cc; --s2: #4a5560; --s3: #c99a62; --s4: #3a434d; --s5: #9cc3ee;
+    --track: #2c333d;
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -73,7 +73,7 @@ a { color: inherit; }
 .gain:hover .gain-v { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; }
 @media (max-width: 760px) { .gain { grid-template-columns: 1fr; } .gain > div + div { border-left: 0; border-top: 1px solid #ffffff1f; } }
 .gain-l { font: 500 11px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--hero-muted); }
-.gain-v { font-size: clamp(28px, 4vw, 38px); font-weight: 600; color: #9fdcc0; line-height: 1.15; margin: 4px 0 2px; }
+.gain-v { font-size: clamp(28px, 4vw, 38px); font-weight: 600; color: #a9c8ec; line-height: 1.15; margin: 4px 0 2px; }
 .gain-s { font-size: 13px; color: var(--hero-muted); }
 
 /* Ползунки */
