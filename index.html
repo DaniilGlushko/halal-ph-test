@@ -11,30 +11,30 @@
 <style>
 /* Ведомость: бумага, чернила, кирпичный акцент, линейки вместо карточек */
 :root {
-  --bg: #fff200; --card: #ffffff; --ink: #000000; --text: #111111; --muted: #4a4a4a; --line: #000000;
-  --accent: #ff1493; --accent-soft: #ffc2e3; --good: #0038ff; --good-soft: #c9d6ff; --bad: #ff1493; --bad-soft: #ffc2e3;
-  --hero: #000000; --hero-ink: #ffffff; --hero-muted: #c8c8c8;
-  --s1: #0038ff; --s2: #ff6a00; --s3: #9b00ff; --s4: #00c2ff; --s5: #00e05a;
-  --track: #000000;
+  --bg: #f4f6f3; --card: #ffffff; --ink: #1f2a2e; --text: #3b474b; --muted: #6f7c80; --line: #dde3e0;
+  --accent: #2f7d74; --accent-soft: #dcefeb; --good: #2f8a5b; --good-soft: #e3f2e8; --bad: #b0624a; --bad-soft: #f3e3dc;
+  --hero: #23383c; --hero-ink: #f4f6f3; --hero-muted: #a9bcbe;
+  --s1: #4a7c94; --s2: #a8b9bf; --s3: #d9a46b; --s4: #c9d3d1; --s5: #2f8a5b;
+  --track: #d3dbd8;
   --serif: Literata, Georgia, "Times New Roman", serif;
   --sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0b0b0b; --card: #161616; --ink: #ffffff; --text: #f0f0f0; --muted: #b0b0b0; --line: #ff1493;
-    --accent: #ff1493; --accent-soft: #4a0a2c; --good: #b6ff00; --good-soft: #263300; --bad: #ff1493; --bad-soft: #4a0a2c;
-    --hero: #ff1493; --hero-ink: #ffffff; --hero-muted: #ffe0f0;
-    --s1: #2d6bff; --s2: #ff6a00; --s3: #b14dff; --s4: #00d5ff; --s5: #b6ff00;
-    --track: #555555;
+    --bg: #141b1d; --card: #1b2427; --ink: #e8efee; --text: #c9d4d2; --muted: #8a9a9b; --line: #2c3a3d;
+    --accent: #6cc1b3; --accent-soft: #1f3533; --good: #7fd1a3; --good-soft: #1b3326; --bad: #d98a70; --bad-soft: #3a2620;
+    --hero: #0f1517; --hero-ink: #e8efee; --hero-muted: #8a9a9b;
+    --s1: #7fa7bd; --s2: #4c5d62; --s3: #c99a62; --s4: #3c4b4f; --s5: #7fd1a3;
+    --track: #2c3a3d;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0b0b0b; --card: #161616; --ink: #ffffff; --text: #f0f0f0; --muted: #b0b0b0; --line: #ff1493;
-  --accent: #ff1493; --accent-soft: #4a0a2c; --good: #b6ff00; --good-soft: #263300; --bad: #ff1493; --bad-soft: #4a0a2c;
-  --hero: #ff1493; --hero-ink: #ffffff; --hero-muted: #ffe0f0;
-  --s1: #2d6bff; --s2: #ff6a00; --s3: #b14dff; --s4: #00d5ff; --s5: #b6ff00;
-  --track: #555555;
+  --bg: #141b1d; --card: #1b2427; --ink: #e8efee; --text: #c9d4d2; --muted: #8a9a9b; --line: #2c3a3d;
+    --accent: #6cc1b3; --accent-soft: #1f3533; --good: #7fd1a3; --good-soft: #1b3326; --bad: #d98a70; --bad-soft: #3a2620;
+    --hero: #0f1517; --hero-ink: #e8efee; --hero-muted: #8a9a9b;
+    --s1: #7fa7bd; --s2: #4c5d62; --s3: #c99a62; --s4: #3c4b4f; --s5: #7fd1a3;
+    --track: #2c3a3d;
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -73,7 +73,7 @@ a { color: inherit; }
 .gain:hover .gain-v { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; }
 @media (max-width: 760px) { .gain { grid-template-columns: 1fr; } .gain > div + div { border-left: 0; border-top: 1px solid #ffffff1f; } }
 .gain-l { font: 500 11px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--hero-muted); }
-.gain-v { font-size: clamp(28px, 4vw, 38px); font-weight: 600; color: #b6ff00; line-height: 1.15; margin: 4px 0 2px; }
+.gain-v { font-size: clamp(28px, 4vw, 38px); font-weight: 600; color: #9fdcc0; line-height: 1.15; margin: 4px 0 2px; }
 .gain-s { font-size: 13px; color: var(--hero-muted); }
 
 /* Ползунки */
@@ -146,7 +146,7 @@ main { counter-reset: sec; padding-bottom: 48px; }
 .kpi .v { font-size: clamp(20px, 2.6vw, 28px); font-weight: 600; color: var(--ink); line-height: 1.2; margin-top: 6px; }
 .kpi .s { font-size: 12px; color: var(--muted); margin-top: 4px; }
 .kpi.hl .v { color: var(--good); }
-.kpi.hl { background: var(--accent); color: #fff; padding-left: 16px !important; }
+.kpi.hl { background: var(--good-soft); padding-left: 16px !important; }
 
 /* График */
 .chart-wrap { position: relative; }
@@ -221,7 +221,6 @@ tr.sel td { background: var(--good-soft); font-weight: 600; }
 button:focus-visible, input:focus-visible, [role=button]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Калькулятор теста */
-.kpi.hl .l, .kpi.hl .s, .kpi.hl .v { color: #fff !important; }
 .gain-l, .gain-s { color: var(--hero-muted); }
 .tag { display: inline-block; font: 600 10px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 3px 5px; margin-left: 6px; vertical-align: 2px; }
 .chk { margin-top: 18px; padding: 12px 14px; border-left: 3px solid var(--good); background: var(--good-soft); }
