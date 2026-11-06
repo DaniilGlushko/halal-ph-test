@@ -221,6 +221,8 @@ tr.sel td { background: var(--good-soft); font-weight: 600; }
 button:focus-visible, input:focus-visible, [role=button]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Калькулятор теста */
+.gloss { list-style: none; padding: 14px 0 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 28px; font-size: 13px; color: var(--muted); }
+@media (max-width: 760px) { .gloss { grid-template-columns: 1fr; } }
 .gain-l, .gain-s { color: var(--hero-muted); }
 .tag { display: inline-block; font: 600 10px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 3px 5px; margin-left: 6px; vertical-align: 2px; }
 .chk { margin-top: 18px; padding: 12px 14px; border-left: 3px solid var(--good); background: var(--good-soft); }
@@ -236,7 +238,7 @@ button:focus-visible, input:focus-visible, [role=button]:focus-visible { outline
 <header class="hero">
  <div class="wrap">
   <div class="mast"><span>Халяльная говядина Россия → Манила · тест и масштаб</span><span>Данные 2026 года</span></div>
-  <h1 class="lede">Тест на <em><span id="bOut">15</span> млн ₽</em>: <em class="t"><span id="nOut">—</span></em> за <span id="mOut">6</span> мес. и <em class="t"><span id="margOut">—</span></em> на мясе. С бюджетом <span id="sOut">200</span> млн ₽ — <em class="t"><span id="yOut">—</span></em> в год</h1>
+  <h1 class="lede">Вкладываем <em><span id="bOut">10</span> млн ₽</em> на <span id="mOut">6</span> мес.: деньги возвращаются, мясо зарабатывает <em class="t"><span id="margOut">—</span></em>. Со <span id="sOut">100</span> млн ₽ — <em class="t"><span id="yOut">—</span></em> чистыми в год</h1>
   <div class="goal">
    <div>
     <p class="lbl">Бюджет теста на закупку и доставку: <b id="bVal">—</b></p>
@@ -257,10 +259,16 @@ button:focus-visible, input:focus-visible, [role=button]:focus-visible { outline
    </div>
   </div>
   <div class="gain" role="button" tabindex="0" data-go="scale">
-   <div><div class="gain-l">Заработок на мясе за тест</div><div class="gain-v" id="hMarg">—</div><div class="gain-s">после закупки, доставки и партнёров</div></div>
-   <div><div class="gain-l">С каждого контейнера</div><div class="gain-v" id="hCtr">—</div><div class="gain-s" id="hCtrS">—</div></div>
-   <div><div class="gain-l">После теста, бюджет <span id="sOut2">200</span> млн ₽</div><div class="gain-v" id="hYear">—</div><div class="gain-s">прибыль в год, команда уже вычтена</div></div>
+   <div><div class="gain-l">Тест: вложено → вернётся</div><div class="gain-v" id="hBack">—</div><div class="gain-s" id="hBackS">—</div></div>
+   <div><div class="gain-l">Тест: заработок на мясе</div><div class="gain-v" id="hMarg">—</div><div class="gain-s" id="hMargS">—</div></div>
+   <div><div class="gain-l">Год с бюджетом <span id="sOut2">100</span> млн ₽</div><div class="gain-v" id="hYear">—</div><div class="gain-s" id="hYearS">—</div></div>
   </div>
+  <ul class="gloss">
+   <li><b>Выручка</b> — сколько платят покупатели в Маниле.</li>
+   <li><b>Заработок на мясе</b> — выручка минус закупка, доставка и доля партнёров.</li>
+   <li><b>Прибыль</b> — заработок минус представитель: зарплата, квартира, перелёты.</li>
+   <li><b>Чистыми</b> — прибыль минус налог 25%. Вложенные деньги возвращаются сверх этого.</li>
+  </ul>
  </div>
 </header>
 
@@ -387,11 +395,11 @@ button:focus-visible, input:focus-visible, [role=button]:focus-visible { outline
    <div class="kpi"><div class="l">Поставки за год</div><div class="v" id="yT">—</div><div class="s" id="yTs">—</div></div>
    <div class="kpi"><div class="l">Выручка за год</div><div class="v" id="yRev">—</div><div class="s">CFR Манила</div></div>
    <div class="kpi"><div class="l">Представитель</div><div class="v" id="yTeam">—</div><div class="s" id="yTeamS">—</div></div>
-   <div class="kpi hl"><div class="l">Прибыль за год</div><div class="v" id="yRes">—</div><div class="s">до налога на прибыль</div></div>
+   <div class="kpi hl"><div class="l">Чистыми за год</div><div class="v" id="yRes">—</div><div class="s" id="yResS">после налога 25%</div></div>
   </div>
   <div class="scroll" style="margin-top:20px">
    <table>
-    <thead><tr><th>Бюджет</th><th>Прибыль за год</th><th>Отгрузок</th><th>Тонн</th><th>Доля импорта</th></tr></thead>
+    <thead><tr><th>Бюджет</th><th>Чистыми за год</th><th>Отгрузок</th><th>Тонн</th><th>Доля импорта</th></tr></thead>
     <tbody id="tbl"></tbody>
    </table>
   </div>
@@ -440,7 +448,7 @@ button:focus-visible, input:focus-visible, [role=button]:focus-visible { outline
     steak: "Австралийский зерновой тонкий край уходит с завода по ~$18,8, вырезка — по $28. Мы продаём дешевле них.",
     other: "Бразилия продаёт сюда субпродукты по $2,36 FOB, хвосты в Малайзию и Индонезию — по $4,36.",
   };
-  const D = { b: 15, m: 6, s: 200, p: "mix", buy: 170, cfr: 2.95, fr: 6000, pr: 3, sal: 500, flat: 120, trip: 150, pay: "arr" };
+  const D = { b: 10, m: 6, s: 100, p: "mix", buy: 170, cfr: 2.95, fr: 6000, pr: 3, sal: 500, flat: 120, trip: 150, pay: "arr" };
   const S = Object.assign({}, D);
   const NUM = ["b", "m", "s", "buy", "cfr", "fr", "pr", "sal", "flat", "trip"];
 
@@ -518,15 +526,17 @@ button:focus-visible, input:focus-visible, [role=button]:focus-visible { outline
     $("bOut").textContent = bTxt; $("mOut").textContent = S.m; $("sOut").textContent = S.s; $("sOut2").textContent = S.s;
     $("bVal").textContent = bTxt + " млн ₽"; $("mVal").textContent = S.m + " мес.";
     $("rVal").textContent = r.n;
-    $("nOut").textContent = `${fmt(r.t)} т` + (p.gen ? ` ${p.gen}` : "");
     $("margOut").textContent = plus(r.marg);
-    $("yOut").textContent = plus(y.res);
+    $("yOut").textContent = plus(y.res * 0.75);
     $("ctrs").innerHTML = Array.from({ length: Math.min(r.n, 40) }, () => '<div class="ctr"></div>').join("") + (r.n > 40 ? `<span class="ctr-more">+${r.n - 40}</span>` : "");
     $("ctrNote").innerHTML = r.n ? `<b>${r.n}</b> ${plural(r.n, "отгрузка", "отгрузки", "отгрузок")} · деньги от импортёра ${PAYNAME[S.pay]} и сразу в следующую` : `Срок короче оборота денег (${PAYNAME[S.pay]}): увеличьте срок`;
+    $("hBack").textContent = mln(S.b * 1e6) + " → " + mln(S.b * 1e6 + Math.max(0, r.marg));
+    $("hBackS").textContent = `${fmt(r.t)} т за ${S.m} мес., покупатели заплатят ${mln(r.rev)}`;
     $("hMarg").textContent = plus(r.marg);
-    $("hCtr").textContent = plus(perCtr);
-    $("hCtrS").textContent = `${fmt(u.mKg, 1)} ₽ с кг · ${fmt(u.mKg / u.cfrRub * 100)}% цены продажи`;
-    $("hYear").textContent = plus(y.res);
+    const pT = r.marg - tm * S.m;
+    $("hMargS").textContent = `представитель за ${S.m} мес. — ${mln(tm * S.m)}, прибыль теста ${pT >= 0 ? "+" : "−"}${mln(Math.abs(pT))}`;
+    $("hYear").textContent = plus(y.res * 0.75);
+    $("hYearS").textContent = `чистыми · прибыль ${plus(y.res)}, налог 25% · 100 млн остаются в обороте`.replace("100 млн", S.s + " млн");
 
     // Килограмм
     $("buyVal").textContent = fmt(S.buy) + " ₽/кг";
@@ -572,10 +582,11 @@ button:focus-visible, input:focus-visible, [role=button]:focus-visible { outline
     $("yRev").textContent = mln(y.rev);
     $("yTeam").textContent = mln(y.team);
     $("yTeamS").textContent = `${fmt(y.team / y.rev * 100, 1)}% выручки`;
-    $("yRes").textContent = plus(y.res);
+    $("yRes").textContent = plus(y.res * 0.75);
+    $("yResS").textContent = `прибыль ${plus(y.res)} минус налог 25%`;
     $("tbl").innerHTML = [50, 100, 150, 200, 300].map(b => {
       const x = yearAt(b);
-      return `<tr data-s="${b}" class="${b === S.s ? "sel" : ""}"><td>${b} млн ₽</td><td class="hit">${plus(x.res)}</td><td>${x.n}</td><td>${fmt(x.t)}</td><td>${fmt(x.share * 100, 1)}%</td></tr>`;
+      return `<tr data-s="${b}" class="${b === S.s ? "sel" : ""}"><td>${b} млн ₽</td><td class="hit">${plus(x.res * 0.75)}</td><td>${x.n}</td><td>${fmt(x.t)}</td><td>${fmt(x.share * 100, 1)}%</td></tr>`;
     }).join("");
     document.querySelectorAll("#tbl tr").forEach(tr => tr.onclick = () => { S.s = +tr.dataset.s; sync(); });
 
