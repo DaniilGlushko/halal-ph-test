@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Тест говядины на Филиппины</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet">
+<style>
+/* Ведомость: бумага, чернила, кирпичный акцент, линейки вместо карточек */
+:root {
+  --bg: #f2ede3; --card: #f7f3ea; --ink: #1a1915; --text: #3a3832; --muted: #7a756a; --line: #d6cdbb;
+  --accent: #b23a1e; --accent-soft: #efdcd1; --good: #1e6b4f; --good-soft: #dbe9df; --bad: #b23a1e; --bad-soft: #efdcd1;
+  --hero: #1a1915; --hero-ink: #f2ede3; --hero-muted: #a49d8e;
+  --s1: #2f4a5c; --s2: #8f9ca4; --s3: #b9925a; --s4: #bdb4a3; --s5: #1e6b4f;
+  --track: #d6cdbb;
+  --serif: Literata, Georgia, "Times New Roman", serif;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15140f; --card: #1c1b16; --ink: #ede6d8; --text: #cfc7b8; --muted: #8f887a; --line: #36322a;
+    --accent: #e2704c; --accent-soft: #3a2219; --good: #6cc195; --good-soft: #17301f; --bad: #e2704c; --bad-soft: #3a2219;
+    --hero: #0d0c09; --hero-ink: #ede6d8; --hero-muted: #8f887a;
+    --s1: #7fa0b8; --s2: #4e5d68; --s3: #b08a52; --s4: #565046; --s5: #6cc195;
+    --track: #36322a;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15140f; --card: #1c1b16; --ink: #ede6d8; --text: #cfc7b8; --muted: #8f887a; --line: #36322a;
+  --accent: #e2704c; --accent-soft: #3a2219; --good: #6cc195; --good-soft: #17301f; --bad: #e2704c; --bad-soft: #3a2219;
+  --hero: #0d0c09; --hero-ink: #ede6d8; --hero-muted: #8f887a;
+  --s1: #7fa0b8; --s2: #4e5d68; --s3: #b08a52; --s4: #565046; --s5: #6cc195;
+  --track: #36322a;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 var(--sans); }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+b, strong { color: var(--ink); font-weight: 600; }
+a { color: inherit; }
+.num, .goal-val, .gain-v, .kpi .v, .ctl-val, .cmp-val, .fact-big, .kg-big .v, .pb-bar, td, .legend .vv { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* Шапка */
+.hero { padding: 28px 0 0; border-bottom: 3px solid var(--ink); }
+.mast { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font: 500 12px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding-bottom: 10px; border-bottom: 1px solid var(--ink); }
+.lede { font: 500 clamp(28px, 4.6vw, 52px)/1.12 var(--serif); color: var(--ink); margin: 28px 0 28px; max-width: 980px; letter-spacing: -.01em; }
+.lede em { font-style: normal; font-family: var(--mono); font-weight: 500; color: var(--accent); white-space: nowrap; border-bottom: 3px solid currentColor; }
+.lede em.t { color: var(--good); }
+.goal { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
+.goal > div { padding: 18px 0 20px; }
+.goal > div + div { padding-left: 28px; border-left: 1px solid var(--line); }
+@media (max-width: 760px) { .goal { grid-template-columns: 1fr; } .goal > div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); } }
+.goal > div:first-child { padding-right: 28px; }
+.lbl { font: 500 12px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+.lbl b { font-size: 15px; letter-spacing: 0; color: var(--ink); }
+.chips { display: flex; flex-wrap: wrap; gap: 0; margin-top: 6px; font-family: var(--mono); }
+.chip { border: 0; background: none; color: var(--muted); padding: 6px 12px 6px 0; margin-right: 12px; font: 500 13px var(--mono); cursor: pointer; border-bottom: 2px solid transparent; }
+.chip:hover { color: var(--ink); }
+.chip[aria-pressed="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+.containers { display: flex; flex-wrap: wrap; gap: 3px; margin: 10px 0 14px; min-height: 14px; }
+.ctr { width: 26px; height: 12px; background: repeating-linear-gradient(90deg, var(--accent) 0 3px, color-mix(in srgb, var(--accent) 75%, var(--bg)) 3px 5px); }
+.ctr.part { opacity: .35; }
+.ctr-more { font: 500 12px var(--mono); color: var(--muted); align-self: center; margin-left: 6px; }
+
+/* Полоса выгоды */
+.gain { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--hero); color: var(--hero-ink); cursor: pointer; margin: 0 -16px; }
+.gain > div { padding: 18px 20px 20px; }
+.gain > div + div { border-left: 1px solid #ffffff1f; }
+.gain:hover .gain-v { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; }
+@media (max-width: 760px) { .gain { grid-template-columns: 1fr; } .gain > div + div { border-left: 0; border-top: 1px solid #ffffff1f; } }
+.gain-l { font: 500 11px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--hero-muted); }
+.gain-v { font-size: clamp(28px, 4vw, 38px); font-weight: 600; color: #7fd3a6; line-height: 1.15; margin: 4px 0 2px; }
+.gain-s { font-size: 13px; color: var(--hero-muted); }
+
+/* Ползунки */
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 26px; background: transparent; margin: 4px 0 0; cursor: pointer; }
+input[type=range]::-webkit-slider-runnable-track { height: 2px; background: linear-gradient(to right, var(--accent) var(--p, 50%), var(--track) var(--p, 50%)); }
+input[type=range]::-moz-range-track { height: 2px; background: var(--track); }
+input[type=range]::-moz-range-progress { height: 2px; background: var(--accent); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--ink); border: 3px solid var(--bg); outline: 1px solid var(--ink); margin-top: -7px; }
+input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 0; background: var(--ink); border: 3px solid var(--bg); outline: 1px solid var(--ink); }
+
+/* Разделы: номер, толстая линейка, заголовок с засечками */
+main { counter-reset: sec; padding-bottom: 48px; }
+.sec { margin-top: 48px; border-top: 3px solid var(--ink); padding-top: 14px; }
+.sec > h2 { font: 700 clamp(22px, 2.8vw, 30px)/1.2 var(--serif); color: var(--ink); margin: 0 0 6px; max-width: 860px; }
+.sec > h2::before { counter-increment: sec; content: counter(sec, decimal-leading-zero); display: block; font: 600 12px var(--mono); letter-spacing: .1em; color: var(--accent); margin-bottom: 8px; }
+.sec-lead { margin: 0 0 20px; color: var(--muted); font-size: 15px; max-width: 760px; }
+.card { background: var(--card); border: 1px solid var(--line); padding: 18px 20px; }
+.grid2 { display: grid; grid-template-columns: 1.05fr 1fr; gap: 0; }
+.grid2 > .card + .card { border-left: 0; }
+@media (max-width: 860px) { .grid2 { grid-template-columns: 1fr; } .grid2 > .card + .card { border-left: 1px solid var(--line); border-top: 0; } }
+.grid2 > *, .facts > *, .goal > *, .kpis > * { min-width: 0; }
+
+/* Выбор продукта и вариантов: вкладки */
+.presets { display: flex; flex-wrap: wrap; gap: 0; margin: -18px -20px 6px; border-bottom: 1px solid var(--line); }
+.preset { flex: 1 1 auto; border: 0; border-right: 1px solid var(--line); background: none; color: var(--ink); padding: 12px 14px; font: 600 14px var(--sans); cursor: pointer; text-align: left; border-bottom: 3px solid transparent; }
+.preset:last-child { border-right: 0; }
+.preset small { display: block; font: 400 12px var(--sans); color: var(--muted); margin-top: 2px; }
+.preset:hover { background: var(--bg); }
+.preset[aria-pressed="true"] { border-bottom-color: var(--accent); background: var(--bg); }
+
+.ctl { padding: 12px 0; border-top: 1px solid var(--line); }
+.presets + .ctl { border-top: 0; }
+.ctl-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.ctl-name { font-weight: 600; color: var(--ink); font-size: 15px; }
+.ctl-val { font-weight: 600; font-size: 14px; color: var(--accent); white-space: nowrap; }
+.ctl-hint { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.seg { display: flex; margin-top: 8px; border: 1px solid var(--ink); }
+.seg button { flex: 1 1 0; border: 0; border-right: 1px solid var(--ink); background: none; color: var(--ink); padding: 8px 6px; font: 600 14px var(--mono); cursor: pointer; }
+.seg button:last-child { border-right: 0; }
+.seg button small { display: block; font: 400 11px var(--sans); color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.seg button[aria-pressed="true"] small { color: var(--bg); opacity: .75; }
+
+/* Килограмм */
+.kg-big { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.kg-big .v { font-size: 44px; font-weight: 600; line-height: 1; }
+.kg-big .v.good { color: var(--good); } .kg-big .v.bad { color: var(--bad); }
+.kg-big .u { color: var(--muted); font-family: var(--mono); font-size: 13px; }
+.bar { display: flex; height: 36px; margin: 18px 0 10px; background: var(--track); }
+.bar > div { height: 100%; transition: width .2s; min-width: 0; }
+.bar > div + div { box-shadow: inset 1px 0 0 var(--card); }
+.legend { list-style: none; padding: 0; margin: 0; font-size: 14px; }
+.legend li { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px dotted var(--line); }
+.legend li:last-child { border-bottom: 0; font-weight: 600; color: var(--ink); }
+.legend .sw { width: 10px; height: 10px; flex: none; }
+.legend .nm { flex: 1; }
+.legend .vv { white-space: nowrap; font-size: 13px; }
+.legend .vv small { color: var(--muted); font-weight: 400; margin-left: 6px; }
+.warn { margin-top: 12px; padding: 10px 12px; border-left: 3px solid var(--accent); background: var(--accent-soft); color: var(--ink); font-size: 14px; display: none; }
+
+/* Показатели: колонки под линейкой */
+.kpis, .cmp-year { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); }
+.cmp-year { grid-template-columns: repeat(3, 1fr); margin-top: 20px; }
+.kpi { padding: 14px 16px 16px; }
+.kpi + .kpi { border-left: 1px solid var(--line); }
+.kpi:first-child { padding-left: 0; }
+@media (max-width: 860px) { .kpis { grid-template-columns: repeat(2, 1fr); } .kpis .kpi:nth-child(3) { border-left: 0; padding-left: 0; } .kpis .kpi:nth-child(n+3) { border-top: 1px solid var(--line); } }
+@media (max-width: 760px) { .cmp-year { grid-template-columns: 1fr; } .cmp-year .kpi { border-left: 0; padding-left: 0; } .cmp-year .kpi + .kpi { border-top: 1px solid var(--line); } }
+.kpi .l { font: 500 11px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.kpi .v { font-size: clamp(20px, 2.6vw, 28px); font-weight: 600; color: var(--ink); line-height: 1.2; margin-top: 6px; }
+.kpi .s { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.kpi.hl .v { color: var(--good); }
+.kpi.hl { background: var(--good-soft); padding-left: 16px !important; }
+
+/* График */
+.chart-wrap { position: relative; }
+svg.chart { width: 100%; height: auto; display: block; touch-action: none; }
+.chart text { fill: var(--muted); font-size: 12px; font-family: var(--mono); }
+@media (max-width: 600px) { .chart text { font-size: 20px; } }
+.tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--bg); font: 500 13px var(--mono); padding: 6px 10px; white-space: nowrap; transform: translate(-50%, -130%); display: none; }
+
+/* Сравнение каналов */
+.cmp-row { display: grid; grid-template-columns: 220px 1fr 130px; gap: 14px; align-items: center; padding: 14px 0; border-top: 1px solid var(--line); }
+.cmp-row:first-of-type { border-top: 0; padding-top: 4px; }
+@media (max-width: 640px) { .cmp-row { grid-template-columns: 1fr auto; } .cmp-row .cmp-bar { grid-column: 1 / -1; grid-row: 2; } .cmp-row .cmp-bar > div { font-size: 0; } }
+.cmp-name { font-weight: 600; color: var(--ink); }
+.cmp-name small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
+.cmp-bar { display: flex; height: 26px; background: repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 10%); }
+.cmp-bar > div { height: 100%; transition: width .2s; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font: 600 11px var(--mono); color: #fff; white-space: nowrap; overflow: hidden; text-transform: uppercase; letter-spacing: .04em; }
+.cmp-val { text-align: right; font-weight: 600; font-size: 22px; color: var(--ink); white-space: nowrap; }
+.cmp-val small { display: block; font-size: 12px; font-weight: 600; color: var(--good); }
+.cmp-ctl { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; margin-top: 6px; border-top: 1px solid var(--ink); }
+.cmp-ctl .ctl { border-top: 0; }
+@media (max-width: 640px) { .cmp-ctl { grid-template-columns: 1fr; } .cmp-ctl .ctl + .ctl { border-top: 1px solid var(--line); } }
+
+/* Полосы в фактах */
+.pb { display: flex; flex-direction: column; gap: 0; min-width: 0; }
+.pb-t { font: 500 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+.pb-row { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 10px; align-items: center; padding: 6px; margin: 0 -6px; }
+.pb-row.click { cursor: pointer; }
+.pb-row.click:hover, .pb-row.click:focus-visible, .pb-row.on { background: var(--accent-soft); outline: none; }
+.pb-l { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.25; }
+.pb-l small { display: block; font-weight: 400; color: var(--muted); font-size: 11px; }
+.pb-bars { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.pb-bar { height: 20px; display: flex; align-items: center; padding: 0 8px; font-size: 12px; font-weight: 600; color: #fff; white-space: nowrap; min-width: max-content; max-width: 100%; transition: width .25s; }
+.pb-leg { display: flex; flex-wrap: wrap; gap: 4px 14px; font: 12px var(--mono); color: var(--muted); }
+.pb-leg i { display: inline-block; width: 10px; height: 10px; margin-right: 5px; vertical-align: -1px; }
+.share { display: flex; height: 28px; font: 600 12px var(--mono); color: #fff; margin: 2px 0 6px; }
+.share div { display: flex; align-items: center; padding: 0 8px; white-space: nowrap; overflow: hidden; }
+.cta { align-self: flex-start; border: 1px solid var(--ink); background: none; color: var(--ink); padding: 10px 14px; font: 600 13px var(--mono); cursor: pointer; letter-spacing: .02em; }
+.cta:hover { background: var(--ink); color: var(--bg); }
+
+/* Пять фактов: газетная сетка с колонками */
+.facts { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); }
+.fact { padding: 20px 24px 22px 0; display: flex; flex-direction: column; gap: 12px; min-width: 0; border-bottom: 1px solid var(--line); }
+.facts > .fact:nth-child(odd):not(.wide) { padding-right: 24px; border-right: 1px solid var(--line); }
+.facts > .fact:nth-child(even):not(.wide), .facts > .wide + .fact + .fact { padding-left: 24px; }
+.facts > .wide + .fact { padding-left: 0; padding-right: 24px; border-right: 1px solid var(--line); }
+.fact.wide { grid-column: 1 / -1; padding-right: 0; }
+@media (max-width: 760px) { .facts { grid-template-columns: 1fr; } .facts > .fact { padding: 18px 0 !important; border-right: 0 !important; } }
+.fact .src, .fact p { overflow-wrap: anywhere; }
+.fact-n { font: 700 34px/1 var(--serif); color: var(--accent); flex: none; min-width: 26px; }
+.fact-h { display: flex; gap: 12px; align-items: baseline; font: 700 19px/1.25 var(--serif); color: var(--ink); }
+.fact-big { font-size: 28px; font-weight: 600; color: var(--accent); line-height: 1.15; }
+.fact-big small { font: 500 13px var(--sans); color: var(--muted); }
+.fact p { margin: 0; font-size: 14px; }
+.fact .src { font-size: 12px; color: var(--muted); margin-top: auto; }
+.fact .src a { color: var(--muted); }
+
+/* Таблица */
+.scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { padding: 10px 14px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+thead th { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); border-bottom: 1px solid var(--ink); }
+tbody tr { cursor: pointer; }
+tbody tr:hover td { background: var(--accent-soft); }
+td.hit { color: var(--good); font-weight: 600; }
+tr.sel td { background: var(--good-soft); font-weight: 600; }
+
+.notes { font-size: 13px; color: var(--muted); }
+.notes ul { padding-left: 18px; margin: 8px 0 0; }
+.notes li { margin: 6px 0; }
+.notes a { color: var(--accent); }
+button:focus-visible, input:focus-visible, [role=button]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Калькулятор теста */
+.tag { display: inline-block; font: 600 10px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 3px 5px; margin-left: 6px; vertical-align: 2px; }
+.chk { margin-top: 18px; padding: 12px 14px; border-left: 3px solid var(--good); background: var(--good-soft); }
+.chk p { margin: 0; font-size: 14px; color: var(--ink); }
+.chk p.lbl { margin-bottom: 6px; }
+.after { margin: 0; font-size: 15px; color: var(--ink); }
+.todo li { font-size: 14px; color: var(--text); }
+.hero .gain-v { overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+ <div class="wrap">
+  <div class="mast"><span>Тест рынка · халяльная говядина Россия → Манила</span><span>Цены и данные 2026 года</span></div>
+  <h1 class="lede">На <em><span id="bOut">15</span> млн ₽</em> за <em><span id="mOut">6</span> мес.</em> отправляем <em class="t"><span id="nOut">—</span></em> <span id="leadTail">—</span></h1>
+  <div class="goal">
+   <div>
+    <p class="lbl">Бюджет на закупку и доставку мяса: <b id="bVal">—</b></p>
+    <input type="range" id="b" min="10" max="20" step="0.5" aria-label="Бюджет, млн рублей">
+    <div class="chips" id="bChips">
+     <button class="chip" data-v="10">10 млн</button>
+     <button class="chip" data-v="12.5">12,5 млн</button>
+     <button class="chip" data-v="15">15 млн</button>
+     <button class="chip" data-v="17.5">17,5 млн</button>
+     <button class="chip" data-v="20">20 млн</button>
+    </div>
+   </div>
+   <div>
+    <p class="lbl">Срок теста: <b id="mVal">—</b> · деньги обернутся <b id="rVal">—</b></p>
+    <input type="range" id="m" min="3" max="12" step="1" aria-label="Срок теста, месяцев">
+    <div class="containers" id="ctrs" aria-hidden="true"></div>
+    <p class="lbl" style="margin:0" id="ctrNote">—</p>
+   </div>
+  </div>
+  <div class="gain" role="button" tabindex="0" data-go="kg">
+   <div><div class="gain-l">Итог теста</div><div class="gain-v" id="hRes">—</div><div class="gain-s" id="hResS">после закупки, доставки, партнёров и команды</div></div>
+   <div><div class="gain-l">Возврат на вложенные деньги</div><div class="gain-v" id="hRoi">—</div><div class="gain-s" id="hRoiS">—</div></div>
+   <div><div class="gain-l">Потолок цены завода</div><div class="gain-v" id="hMax">—</div><div class="gain-s">до этой цены за кг тест не уходит в минус</div></div>
+  </div>
+ </div>
+</header>
+
+<main class="wrap">
+
+ <section class="sec" id="kg">
+  <h2>Что везём и сколько остаётся с одного килограмма</h2>
+  <p class="sec-lead">Продаём импортёру в Маниле с доставкой до порта (CFR): пошлину, растаможку и холодильник оплачивает он. Своя компания на Филиппинах для теста не нужна.</p>
+  <div class="grid2">
+   <div class="card">
+    <div class="presets" id="presets"></div>
+    <div class="ctl">
+     <div class="ctl-head"><span class="ctl-name">Цена завода в России <span class="tag">ждём прайс</span></span><span class="ctl-val" id="buyVal">—</span></div>
+     <input type="range" id="buy" min="50" max="600" step="5" aria-label="Цена завода, рублей за кг">
+     <div class="ctl-hint">Открытых цен на субпродукты за 2026 год нет. Стоит ориентир, подставьте прайс завода, допущенного на Филиппины.</div>
+    </div>
+    <div class="ctl">
+     <div class="ctl-head"><span class="ctl-name">Цена продажи импортёру, CFR Манила</span><span class="ctl-val" id="cfrVal">—</span></div>
+     <input type="range" id="cfr" min="1.5" max="7" step="0.05" aria-label="Цена продажи, долларов за кг">
+     <div class="ctl-hint" id="cfrHint">—</div>
+    </div>
+    <div class="ctl">
+     <div class="ctl-head"><span class="ctl-name">Доставка от завода до Манилы</span><span class="ctl-val" id="frVal">—</span></div>
+     <input type="range" id="fr" min="3000" max="10000" step="250" aria-label="Доставка, долларов за контейнер">
+     <div class="ctl-hint">Ж/д до Владивостока и море, 40-футовый рефконтейнер, 27 т. Тариф не публикуется, запросить у FESCO / Дальрефтранс.</div>
+    </div>
+    <div class="ctl">
+     <div class="ctl-head"><span class="ctl-name">Доля партнёров в Маниле</span><span class="ctl-val" id="prVal">—</span></div>
+     <input type="range" id="pr" min="0" max="10" step="0.5" aria-label="Доля партнёров, процентов выручки">
+     <div class="ctl-hint">Ищут покупателей и помогают с документами. Процент с выручки по каждой отгрузке.</div>
+    </div>
+   </div>
+   <div class="card">
+    <p class="lbl">С каждого килограмма остаётся</p>
+    <div class="kg-big"><span class="v" id="kgM">—</span><span class="u" id="kgU">—</span></div>
+    <div class="bar" id="kgBar"></div>
+    <ul class="legend" id="kgLeg"></ul>
+    <div class="chk">
+     <p class="lbl">Проверка ценой рынка</p>
+     <p id="chkTxt">—</p>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <section class="sec" id="team">
+  <h2>Команда на срок теста и как быстро возвращаются деньги</h2>
+  <p class="sec-lead">Зарплата представителя, квартира в Маниле и перелёты. Чем быстрее импортёр платит, тем больше раз бюджет успеет обернуться.</p>
+  <div class="grid2">
+   <div class="card">
+    <div class="ctl" style="border-top:0;padding-top:0">
+     <div class="ctl-head"><span class="ctl-name">Зарплата представителя в Маниле</span><span class="ctl-val" id="salVal">—</span></div>
+     <input type="range" id="sal" min="200" max="1000" step="50" aria-label="Зарплата, тысяч рублей в месяц">
+    </div>
+    <div class="ctl">
+     <div class="ctl-head"><span class="ctl-name">Квартира в Маниле</span><span class="ctl-val" id="flatVal">—</span></div>
+     <input type="range" id="flat" min="50" max="250" step="5" aria-label="Аренда, тысяч рублей в месяц">
+     <div class="ctl-hint">1,5–2 спальни в Макати или BGC: около ₱95 тыс. в месяц.</div>
+    </div>
+    <div class="ctl">
+     <div class="ctl-head"><span class="ctl-name">Перелёты и поездки</span><span class="ctl-val" id="tripVal">—</span></div>
+     <input type="range" id="trip" min="0" max="400" step="10" aria-label="Перелёты и поездки, тысяч рублей в месяц">
+     <div class="ctl-hint">Москва — Манила и обратно, поездки к заводу и покупателям. В среднем за месяц.</div>
+    </div>
+    <div class="ctl">
+     <div class="ctl-head"><span class="ctl-name">Как платит импортёр</span><span class="ctl-val" id="payVal">—</span></div>
+     <div class="seg" id="pay">
+      <button data-v="lc">Аккредитив<small>по документам</small></button>
+      <button data-v="arr">По прибытии<small>в Манилу</small></button>
+      <button data-v="def">Отсрочка<small>30 дней</small></button>
+     </div>
+    </div>
+    <div class="ctl">
+     <div class="ctl-head"><span class="ctl-name">Расходы на команду</span></div>
+     <div class="seg" id="fund">
+      <button data-v="over">Сверх бюджета<small>бюджет целиком на мясо</small></button>
+      <button data-v="in">Из бюджета<small>остаток на мясо</small></button>
+     </div>
+    </div>
+   </div>
+   <div class="card">
+    <p class="lbl">Куда уходят деньги за <span id="splitM">—</span></p>
+    <div class="kg-big"><span class="v" id="invTot">—</span><span class="u">вложено всего</span></div>
+    <div class="bar" id="splitBar"></div>
+    <ul class="legend" id="splitLeg"></ul>
+    <p class="lbl" style="margin-top:18px">После теста</p>
+    <p class="after" id="afterTxt">—</p>
+   </div>
+  </div>
+ </section>
+
+ <section class="sec">
+  <h2>Итог теста</h2>
+  <div class="kpis">
+   <div class="kpi"><div class="l">Отправлено</div><div class="v" id="kT">—</div><div class="s" id="kTs">—</div></div>
+   <div class="kpi"><div class="l">Выручка</div><div class="v" id="kRev">—</div><div class="s">от импортёров, CFR Манила</div></div>
+   <div class="kpi"><div class="l">Заработок на мясе</div><div class="v" id="kMarg">—</div><div class="s">после закупки, доставки и партнёров</div></div>
+   <div class="kpi hl"><div class="l">Итог после команды</div><div class="v" id="kRes">—</div><div class="s" id="kResS">до налога на прибыль</div></div>
+  </div>
+ </section>
+
+ <section class="sec">
+  <h2>Если бюджет другой</h2>
+  <p class="sec-lead">Тот же продукт, срок и условия. Нажмите на строку, чтобы пересчитать страницу.</p>
+  <div class="scroll">
+   <table>
+    <thead><tr><th>Бюджет</th><th>Итог</th><th>Возврат</th><th>Контейнеров</th><th>Тонн</th><th>Выручка</th></tr></thead>
+    <tbody id="tbl"></tbody>
+   </table>
+  </div>
+ </section>
+
+ <section class="sec" id="why">
+  <h2>Почему сейчас: рынок 2026 года</h2>
+  <div class="facts">
+
+   <div class="fact">
+    <div class="fact-h"><span class="fact-n">1</span>Филиппины покупают больше, чем производят</div>
+    <div class="fact-big">288 тыс. т <small>импорт говядины в 2026 году, оценка USDA</small></div>
+    <div class="pb">
+     <div class="pb-t">Импорт говядины, январь–май 2026, тыс. т</div>
+     <div class="pb-row"><span class="pb-l">Бразилия</span><div class="pb-bars"><div class="pb-bar" style="width:100%;background:var(--s1)">38,7</div></div></div>
+     <div class="pb-row"><span class="pb-l">Индия<small>буйволятина, +27%</small></span><div class="pb-bars"><div class="pb-bar" style="width:91%;background:var(--s1)">35,2</div></div></div>
+     <div class="pb-row"><span class="pb-l">Австралия</span><div class="pb-bars"><div class="pb-bar" style="width:54%;background:var(--s2)">20,8</div></div></div>
+     <div class="pb-row"><span class="pb-l">США</span><div class="pb-bars"><div class="pb-bar" style="width:15%;background:var(--s2)">5,7</div></div></div>
+     <div class="pb-row"><span class="pb-l">Новая Зеландия</span><div class="pb-bars"><div class="pb-bar" style="width:14%;background:var(--s2)">5,3</div></div></div>
+    </div>
+    <p>Около 60% говядины в стране импортная. Россию допустили в апреле 2025 года, но в статистике её говядины пока нет: место первого российского поставщика свободно.</p>
+    <div class="src">Источники: <a href="https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Livestock%20and%20Products%20Annual_Manila_Philippines_RP2026-0022">USDA FAS, 10.09.2026</a> · <a href="https://interfax.com/newsroom/top-stories/111080/">Интерфакс: допуск говядины и субпродуктов, 18.04.2025</a></div>
+   </div>
+
+   <div class="fact">
+    <div class="fact-h"><span class="fact-n">2</span>Импортное дешевле местного</div>
+    <div class="pb">
+     <div class="pb-t">Розница Манилы, 5 ноября 2026, ₱ за кг</div>
+     <div class="pb-row"><span class="pb-l">Рубец</span><div class="pb-bars"><div class="pb-bar" style="width:39%;background:var(--accent)">200–240</div><div class="pb-bar" style="width:57%;background:var(--s4)">293</div></div></div>
+     <div class="pb-row"><span class="pb-l">Грудинка</span><div class="pb-bars"><div class="pb-bar" style="width:79%;background:var(--accent)">400</div><div class="pb-bar" style="width:89%;background:var(--s4)">449</div></div></div>
+     <div class="pb-row"><span class="pb-l">Огузок</span><div class="pb-bars"><div class="pb-bar" style="width:82%;background:var(--accent)">416</div><div class="pb-bar" style="width:100%;background:var(--s4)">506</div></div></div>
+     <div class="pb-row"><span class="pb-l">Почки</span><div class="pb-bars"><div class="pb-bar" style="width:51%;background:var(--accent)">260</div><div class="pb-bar" style="width:56%;background:var(--s4)">284</div></div></div>
+    </div>
+    <div class="pb-leg"><span><i style="background:var(--accent)"></i>импортная заморозка</span><span><i style="background:var(--s4)"></i>местное мясо</span></div>
+    <p>Покупатель выбирает импорт: он на 10–30% дешевле местного. Рубец, хвосты и голяшка нужны для кальоса, каре-каре и булало. В России эти части дешёвые.</p>
+    <div class="src">Источник: <a href="https://www.da.gov.ph/wp-content/uploads/2026/11/Daily-Price-Index-November-5-2026.pdf">Минсельхоз Филиппин, Daily Price Index NCR, 05.11.2026</a></div>
+   </div>
+
+   <div class="fact">
+    <div class="fact-h"><span class="fact-n">3</span>Цена конкурентов</div>
+    <div class="pb" id="pbComp"></div>
+    <div class="pb-leg" id="compLeg"></div>
+    <p>Бразилия и Индия везут в основном мясо без кости для массового рынка и переработки. Мы идём в субпродукты и мясо на кости для супов, где у них меньше предложения. <span id="compTxt"></span></p>
+    <div class="src">Источники: <a href="https://ncnews.com.br/2026/08/14/exportacao-de-carne-bovina-para-filipinas-pode-chegar-a-96-mil-toneladas-em-2026/">ABIEC: 35,9 тыс. т на $162,4 млн, 1-е полугодие 2026</a> · <a href="https://dairynews.today/news/india_s_buffalo_meat_exports_crossed_5_1bn_in_fy2025_26_5503153.html">Индия: $4 392 за т, апрель–июнь 2026</a></div>
+   </div>
+
+   <div class="fact">
+    <div class="fact-h"><span class="fact-n">4</span>Дорога уже проложена</div>
+    <div class="fact-big">40 дней <small>от завода до Манилы, 27 т в контейнере</small></div>
+    <p>С февраля 2026 года FESCO возит российское мясо на Филиппины рефконтейнерами через Владивосток и Шанхай: к апрелю больше 1 500 т, план — до 80 контейнеров в месяц. За первое полугодие Россия поставила на Филиппины больше 14 тыс. т мяса.</p>
+    <p>На Филиппины допущены 18 российских предприятий, из них 2 по говядине. Ещё 26 подали заявки на инспекцию в 2026 году.</p>
+    <div class="src">Источники: <a href="https://investfuture.ru/articles/rossiyskaya-svinina-pokoryaet-filippiny-pervaya-partiya-otpravlena-5a7c702ced9d0fab43258dcc0053a651">первая партия, 01.04.2026</a> · <a href="https://www.alta.ru/logistics_news/127203/">Альта-Софт: FESCO, 09.04.2026</a> · <a href="https://www.tks.ru/news/nearby/2026/08/05/0014/rossiya-vpervyie-postavila-na-filippiny-bolee-14-tyisyach-tonn-myasa/">ТКС, 05.08.2026</a> · <a href="https://www.interfax.com/newsroom/top-stories/117195/">Интерфакс, 17.04.2026</a></div>
+   </div>
+
+  </div>
+ </section>
+
+ <section class="sec">
+  <h2>Что выяснить до первой отгрузки</h2>
+  <div class="notes todo">
+   <ul>
+    <li><b>Цена завода.</b> Главная неизвестная. Запросить прайс на рубец, хвосты и голяшку у двух заводов, допущенных на Филиппины. По нашим данным, это Мираторг и Агрокомплекс им. Ткачёва — сверить со списком Россельхознадзора.</li>
+    <li><b>Халяль-сертификат.</b> У Мираторга сертификат GULFTIC-ICSC действовал до 31 августа 2026 года. Нужно узнать, продлён ли он и примет ли его филиппинский покупатель.</li>
+    <li><b>Ставка доставки.</b> Запросить у FESCO / Дальрефтранс ставку за 40-футовый рефконтейнер до Манилы.</li>
+    <li><b>Покупатель.</b> Импортёр с лицензией NMIS, оплаченный капитал от ₱5 млн. Его ищут партнёры в Маниле. Для первой сделки — аккредитив.</li>
+    <li><b>Пошлина.</b> Для импортёра 10% на мясо и 7% на субпродукты, НДС на замороженное мясо нет. Ставки взяты из тарифной книги 2022 года, на 2026 год их нужно сверить.</li>
+   </ul>
+  </div>
+ </section>
+
+ <section class="sec">
+  <h2>Откуда цифры</h2>
+  <div class="notes">
+   <ul>
+    <li>Курс: $1 = 80,6 ₽, $1 = ₱63,7. Контейнер — 27 т нетто, как в первой партии российского мяса в Манилу.</li>
+    <li>Розница Манилы: <a href="https://www.da.gov.ph/wp-content/uploads/2026/11/Daily-Price-Index-November-5-2026.pdf">DA, 05.11.2026</a> и <a href="https://www.da.gov.ph/wp-content/uploads/2026/11/Daily-Price-Index-November-2-2026.pdf">02.11.2026</a> (импортный рубец ₱200–240). Хвосты и голяшка: онлайн-мясник <a href="https://4rfreshandfrozen.com/collections/beef/philippines">4R Fresh and Frozen</a>, ноябрь 2026 (₱457 и ₱475, мелкая фасовка).</li>
+    <li>Цена завода — ориентир, а не прайс: открытых оптовых цен на говяжьи субпродукты в России за 2026 год нет. Для сравнения: экспорт российской говядины в Китай за январь–май 2026 — около $8 за кг вместе с субпродуктами (<a href="https://www.alta.ru/external_news/129022/">Альта-Софт</a>).</li>
+    <li>Доставка: ставки на Манилу нет в открытом доступе. Ориентир — рефконтейнер из Бразилии подорожал с $2 800 до $7 000 в марте 2026 (<a href="https://datamarnews.com/noticias/freight-rates-for-meat-exports-more-than-doubled-last-month-amid-middle-east-conflict/">Datamar</a>).</li>
+    <li>Оборот денег: аккредитив — деньги примерно через 1,5 месяца после закупки; оплата по прибытии — через 2,5; отсрочка 30 дней — через 3,5. Условия оплаты на Филиппинах: <a href="https://www.trade.gov/country-commercial-guides/philippines-trade-financing">trade.gov, 30.06.2026</a>.</li>
+    <li>Пошлина и сборы для импортёра: <a href="https://www.mla.com.au/globalassets/mla-corporate/prices--markets/documents/os-markets/red-meat-market-snapshots/2026/philippines_2025-mla-mi-market-snapshot_280126.pdf">MLA, январь 2026</a>, <a href="https://importlicensing.wto.org/node/99644">ВТО: лицензия NMIS</a>, <a href="https://lawphil.net/statutes/repacts/ra2016/ra_10864_2016.html">НДС: RA 10864</a>.</li>
+    <li>Квартира: ₱95 тыс. в месяц, расчёт <a href="https://daniilglushko.github.io/entity-budget-asia/">«Компания в Азии»</a>. Итог — до налога на прибыль.</li>
+   </ul>
+  </div>
+ </section>
+
+</main>
+
+<script>
+(() => {
+  const RUB_USD = 80.6, PHP_USD = 63.7, CONT_T = 27;
+  const CYCLE = { lc: 1.5, arr: 2.5, def: 3.5 };
+  const PAYNAME = { lc: "через ~1,5 мес.", arr: "через ~2,5 мес.", def: "через ~3,5 мес." };
+
+  // Розница: DA 02.11.2026 (рубец, импортная заморозка), 4R ноябрь 2026 (хвосты, голяшка).
+  // Цена завода — ориентир, открытых данных 2026 нет.
+  const PRESETS = [
+    { id: "tripe", name: "Рубец", gen: "рубца", sub: "кальос", buy: 140, cfr: 2.45, duty: 0.07, retail: 240, rsrc: "импортный рубец в рознице, DA, 2 ноября 2026" },
+    { id: "tail", name: "Хвосты", gen: "хвостов", sub: "каре-каре", buy: 290, cfr: 4.6, duty: 0.07, retail: 457, rsrc: "хвосты у онлайн-мясника 4R, ноябрь 2026" },
+    { id: "shank", name: "Голяшка", gen: "голяшки", sub: "булало", buy: 320, cfr: 4.6, duty: 0.10, retail: 475, rsrc: "голяшка у онлайн-мясника 4R, ноябрь 2026" },
+  ];
+  const D = { b: 15, m: 6, p: "tripe", buy: 140, cfr: 2.45, fr: 6000, pr: 3, sal: 500, flat: 120, trip: 150, pay: "arr", fund: "over" };
+  const S = Object.assign({}, D);
+  const NUM = ["b", "m", "buy", "cfr", "fr", "pr", "sal", "flat", "trip"];
+
+  try {
+    const h = new URLSearchParams(location.hash.slice(1));
+    for (const k of NUM) if (h.has(k) && !isNaN(+h.get(k))) S[k] = +h.get(k);
+    const hp = PRESETS.find(x => x.id === h.get("p"));
+    if (hp) { S.p = hp.id; if (!h.has("buy")) S.buy = hp.buy; if (!h.has("cfr")) S.cfr = hp.cfr; }
+    if (h.get("pay") in CYCLE) S.pay = h.get("pay");
+    if (["over", "in"].includes(h.get("fund"))) S.fund = h.get("fund");
+  } catch (e) {}
+
+  const $ = id => document.getElementById(id);
+  const fmt = (x, d = 0) => x.toLocaleString("ru-RU", { minimumFractionDigits: d, maximumFractionDigits: d }).replace("-", "−");
+  const mln = x => fmt(x / 1e6, Math.abs(x) < 1e8 ? 1 : 0) + " млн ₽";
+  const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? b : c; };
+  const ctrWord = n => plural(n, "контейнер", "контейнера", "контейнеров");
+  const pr = () => PRESETS.find(x => x.id === S.p);
+
+  // Модель теста
+  function calc(o = {}) {
+    const s = Object.assign({}, S, o);
+    const frKg = s.fr * RUB_USD / (CONT_T * 1000);
+    const cfrRub = s.cfr * RUB_USD;
+    const commKg = cfrRub * s.pr / 100;
+    const mKg = cfrRub - s.buy - frKg - commKg;
+    const ctrCost = CONT_T * 1000 * (s.buy + frKg);
+    const teamM = (s.sal + s.flat + s.trip) * 1000;
+    const team = teamM * s.m;
+    const goods = s.fund === "in" ? s.b * 1e6 - team : s.b * 1e6;
+    const perRound = Math.max(0, Math.floor(goods / ctrCost));
+    const rounds = Math.max(1, Math.floor(s.m / CYCLE[s.pay]));
+    const n = perRound * rounds;
+    const kg = n * CONT_T * 1000;
+    const rev = kg * cfrRub, marg = kg * mKg;
+    const res = marg - team;
+    const invested = s.fund === "in" ? s.b * 1e6 : s.b * 1e6 + team;
+    return { frKg, cfrRub, commKg, mKg, ctrCost, teamM, team, goods, perRound, rounds, n, kg, rev, marg, res, invested, roi: res / invested };
+  }
+  // Потолок цены завода: при какой цене итог теста = 0 (бисекция)
+  function maxBuy() {
+    let lo = 0, hi = S.cfr * RUB_USD;
+    if (calc({ buy: lo }).res < 0) return null;
+    for (let i = 0; i < 40; i++) { const mid = (lo + hi) / 2; if (calc({ buy: mid }).res >= 0) lo = mid; else hi = mid; }
+    return Math.floor(lo);
+  }
+
+  function setP(el) { el.style.setProperty("--p", ((el.value - el.min) / (el.max - el.min) * 100) + "%"); }
+  function sync() { for (const k of NUM) { $(k).value = S[k]; setP($(k)); } render(); }
+
+  // Вкладки продуктов
+  $("presets").innerHTML = PRESETS.map(p => `<button class="preset" data-id="${p.id}">${p.name}<small>${p.sub}</small></button>`).join("");
+  document.querySelectorAll(".preset").forEach(b => b.onclick = () => {
+    const p = PRESETS.find(x => x.id === b.dataset.id);
+    S.p = p.id; S.buy = p.buy; S.cfr = p.cfr; sync();
+  });
+  for (const k of NUM) $(k).addEventListener("input", e => { S[k] = +e.target.value; setP(e.target); render(); });
+  document.querySelectorAll("#bChips .chip").forEach(b => b.onclick = () => { S.b = +b.dataset.v; sync(); });
+  document.querySelectorAll("#pay button").forEach(b => b.onclick = () => { S.pay = b.dataset.v; render(); });
+  document.querySelectorAll("#fund button").forEach(b => b.onclick = () => { S.fund = b.dataset.v; render(); });
+  const go = id => document.getElementById(id).scrollIntoView({ behavior: "smooth", block: "start" });
+  document.querySelectorAll("[data-go]").forEach(el => {
+    el.addEventListener("click", () => go(el.dataset.go));
+    el.addEventListener("keydown", e => { if (e.key === "Enter") go(el.dataset.go); });
+  });
+
+  // items: [цвет, название, значение для полосы, подпись, примечание]
+  const legend = items => items.map(([c, n, , v, sub]) => `<li><span class="sw" style="background:${c}"></span><span class="nm">${n}</span><span class="vv">${v}${sub ? `<small>${sub}</small>` : ""}</span></li>`).join("");
+  const bar = (items, total) => items.filter(x => x[2] > 0).map(([c, n, v, t]) => `<div style="width:${v / total * 100}%;background:${c}" title="${n}: ${t}"></div>`).join("");
+
+  function render() {
+    const p = pr(), r = calc(), mx = maxBuy();
+    document.querySelectorAll(".preset").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === S.p));
+    document.querySelectorAll("#bChips .chip").forEach(b => b.setAttribute("aria-pressed", +b.dataset.v === S.b));
+    document.querySelectorAll("#pay button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === S.pay));
+    document.querySelectorAll("#fund button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === S.fund));
+
+    // Шапка
+    const bTxt = fmt(S.b, S.b % 1 ? 1 : 0);
+    $("bOut").textContent = bTxt;
+    $("mOut").textContent = S.m;
+    $("bVal").textContent = bTxt + " млн ₽";
+    $("mVal").textContent = S.m + " мес.";
+    $("rVal").textContent = r.rounds + " " + plural(r.rounds, "раз", "раза", "раз");
+    const tons = r.n * CONT_T;
+    if (r.n === 0) {
+      $("nOut").textContent = "0 контейнеров";
+      $("leadTail").textContent = "— бюджета не хватает на контейнер, увеличьте бюджет";
+    } else {
+      $("nOut").textContent = `${r.n} ${ctrWord(r.n)} ${p.gen}`;
+      $("leadTail").innerHTML = r.res >= 0
+        ? `(${fmt(tons)} т) и зарабатываем <em class="t">${mln(r.res)}</em> сверх зарплаты, квартиры и перелётов`
+        : `(${fmt(tons)} т). Заработок на мясе покрывает <em>${fmt(Math.max(0, r.marg / r.team * 100))}%</em> расходов на команду`;
+    }
+    $("ctrs").innerHTML = Array.from({ length: Math.min(r.n, 40) }, () => '<div class="ctr"></div>').join("") + (r.n > 40 ? `<span class="ctr-more">+${r.n - 40}</span>` : "");
+    $("ctrNote").innerHTML = r.n ? `<b>${r.perRound}</b> ${ctrWord(r.perRound)} за раз · деньги от импортёра ${PAYNAME[S.pay]}` : "Один контейнер стоит <b>" + mln(r.ctrCost) + "</b>";
+
+    const pos = r.res >= 0;
+    $("hRes").textContent = (r.res > 0 ? "+" : "") + mln(r.res);
+    $("hRes").style.color = pos ? "" : "var(--hero-ink)";
+    $("hResS").textContent = pos ? "после закупки, доставки, партнёров и команды" : "команда окупается с ростом объёма, см. «После теста»";
+    $("hRoi").textContent = (r.roi > 0 ? "+" : "") + fmt(r.roi * 100) + "%";
+    $("hRoi").style.color = pos ? "" : "var(--hero-ink)";
+    $("hRoiS").textContent = "на " + mln(r.invested) + (S.fund === "over" ? ": мясо и команда" : "");
+    $("hMax").textContent = mx === null ? "—" : fmt(mx) + " ₽";
+
+    // Килограмм
+    $("buyVal").textContent = fmt(S.buy) + " ₽/кг";
+    $("cfrVal").textContent = "$" + fmt(S.cfr, 2) + " · " + fmt(r.cfrRub) + " ₽";
+    $("frVal").textContent = "$" + fmt(S.fr) + " · " + fmt(r.frKg, 1) + " ₽/кг";
+    $("prVal").textContent = fmt(S.pr, 1) + "% · " + fmt(r.commKg, 1) + " ₽/кг";
+    $("cfrHint").textContent = `Бразилия продаёт на Филиппины в среднем по $4,52 FOB, Индия — по $4,39. Рынок: ${p.rsrc} — ₱${fmt(p.retail)}.`;
+    $("kgM").textContent = (r.mKg > 0 ? "+" : "") + fmt(r.mKg, 1) + " ₽";
+    $("kgM").className = "v " + (r.mKg > 0 ? "good" : "bad");
+    $("kgU").textContent = `с кг · ${fmt(r.mKg / r.cfrRub * 100)}% цены · ${mln(r.mKg * CONT_T * 1000)} с контейнера`;
+    const items = [
+      ["var(--s4)", "Заводу", S.buy, fmt(S.buy) + " ₽"],
+      ["var(--s2)", "Доставка до Манилы", r.frKg, fmt(r.frKg, 1) + " ₽"],
+      ["var(--s3)", "Партнёрам в Маниле", r.commKg, fmt(r.commKg, 1) + " ₽"],
+      ["var(--good)", "Остаётся нам", Math.max(0, r.mKg), fmt(r.mKg, 1) + " ₽"],
+    ];
+    $("kgBar").innerHTML = bar(items, Math.max(r.cfrRub, S.buy + r.frKg + r.commKg));
+    $("kgLeg").innerHTML = legend(items) + `<li><span class="sw"></span><span class="nm">Цена продажи импортёру</span><span class="vv">${fmt(r.cfrRub)} ₽<small>$${fmt(S.cfr, 2)}</small></span></li>`;
+    const landed = S.cfr * PHP_USD * (1 + p.duty);
+    const room = p.retail - landed;
+    const src = p.rsrc[0].toUpperCase() + p.rsrc.slice(1);
+    $("chkTxt").innerHTML = room > 0
+      ? `С пошлиной ${fmt(p.duty * 100)}% импортёр получает килограмм за <b>₱${fmt(landed)}</b>. ${src} — <b>₱${fmt(p.retail)}</b>: на холодильник, развоз и наценки остаётся <b>₱${fmt(room)}</b> (${fmt(room / p.retail * 100)}% цены). Чем больше этот запас, тем легче продать.`
+      : `С пошлиной ${fmt(p.duty * 100)}% импортёр получает килограмм за <b>₱${fmt(landed)}</b> — дороже, чем в рознице (₱${fmt(p.retail)}). Так импортёр не купит: снизьте цену продажи.`;
+
+    // Команда и деньги
+    $("salVal").textContent = fmt(S.sal) + " тыс. ₽/мес";
+    $("flatVal").textContent = fmt(S.flat) + " тыс. ₽/мес";
+    $("tripVal").textContent = fmt(S.trip) + " тыс. ₽/мес";
+    $("payVal").textContent = "деньги " + PAYNAME[S.pay];
+    $("splitM").textContent = S.m + " мес.";
+    const used = r.perRound * r.ctrCost;
+    const spare = Math.max(0, r.goods - used);
+    $("invTot").textContent = mln(r.invested);
+    const sp = [
+      ["var(--accent)", "Мясо и доставка, в обороте", used, mln(used), `${r.perRound} ${ctrWord(r.perRound)} за раз`],
+      ["var(--s4)", "Остаток, меньше контейнера", spare, mln(spare), "запас"],
+      ["var(--s1)", "Команда: зарплата, квартира, перелёты", r.team, mln(r.team), `${fmt(r.teamM / 1000)} тыс. ₽ в мес.`],
+    ];
+    $("splitBar").innerHTML = bar(sp, Math.max(r.invested, used + spare + r.team));
+    $("splitLeg").innerHTML = legend(sp);
+    const perCtr = r.mKg * CONT_T * 1000;
+    if (perCtr > 0) {
+      const be = r.teamM / perCtr;
+      $("afterTxt").innerHTML = `Команду окупает <b>${fmt(be, 1)} контейнера</b> в месяц. При 2 контейнерах в месяц — <b>${mln(2 * perCtr * 12 - r.teamM * 12)}</b> в год после команды, при 4 — <b>${mln(4 * perCtr * 12 - r.teamM * 12)}</b>.`;
+    } else {
+      $("afterTxt").textContent = "При таких ценах килограмм не приносит заработка: нужна цена завода ниже или цена продажи выше.";
+    }
+
+    // KPI
+    $("kT").textContent = fmt(tons) + " т";
+    $("kTs").textContent = `${r.n} ${ctrWord(r.n)} по 27 т`;
+    $("kRev").textContent = mln(r.rev);
+    $("kMarg").textContent = mln(r.marg);
+    $("kRes").textContent = (r.res > 0 ? "+" : "") + mln(r.res);
+    $("kRes").style.color = pos ? "" : "var(--ink)";
+    $("kResS").textContent = `команда ${mln(r.team)} · до налога на прибыль`;
+
+    // Таблица бюджетов
+    $("tbl").innerHTML = [10, 12.5, 15, 17.5, 20].map(b => {
+      const x = calc({ b });
+      return `<tr data-b="${b}" class="${b === S.b ? "sel" : ""}"><td>${fmt(b, b % 1 ? 1 : 0)} млн ₽</td><td class="${x.res >= 0 ? "hit" : ""}">${(x.res > 0 ? "+" : "") + mln(x.res)}</td><td>${fmt(x.roi * 100)}%</td><td>${x.n}</td><td>${fmt(x.n * CONT_T)}</td><td>${mln(x.rev)}</td></tr>`;
+    }).join("");
+    document.querySelectorAll("#tbl tr").forEach(tr => tr.onclick = () => { S.b = +tr.dataset.b; sync(); window.scrollTo({ top: 0, behavior: "smooth" }); });
+
+    // Конкуренты
+    const tripe = p.id === "tripe";
+    const comp = [["Бразилия<small>1-е полугодие 2026</small>", 4.52, "var(--s1)"], ["Индия<small>апрель–июнь 2026</small>", 4.39, "var(--s1)"]];
+    if (!tripe) comp.push([`Мы: ${p.name.toLowerCase()}<small>из калькулятора</small>`, S.cfr, "var(--accent)"]);
+    $("compLeg").innerHTML = '<span><i style="background:var(--s1)"></i>средняя цена говядины, FOB</span>' + (tripe ? "" : '<span><i style="background:var(--accent)"></i>наша цена с доставкой, CFR</span>');
+    $("compTxt").textContent = tripe ? "Рубец — субпродукт и стоит дешевле мяса: в рознице Манилы импортный рубец ₱200–240 против ₱400 за грудинку." : `${p.name} с доставкой в Манилу — $${fmt(S.cfr, 2)} за кг.`;
+    const cm = Math.max(...comp.map(x => x[1]));
+    $("pbComp").innerHTML = '<div class="pb-t">Цена продажи на Филиппины, $ за кг</div>' + comp.map(([n, v, c]) => `<div class="pb-row"><span class="pb-l">${n}</span><div class="pb-bars"><div class="pb-bar" style="width:${v / cm * 100}%;background:${c}">$${fmt(v, 2)}</div></div></div>`).join("");
+
+    // Ссылка
+    const h = new URLSearchParams();
+    const base = Object.assign({}, D, { buy: p.buy, cfr: p.cfr });
+    for (const k of NUM) if (S[k] !== base[k]) h.set(k, S[k]);
+    if (S.p !== D.p) h.set("p", S.p);
+    if (S.pay !== D.pay) h.set("pay", S.pay);
+    if (S.fund !== D.fund) h.set("fund", S.fund);
+    history.replaceState(null, "", h.toString() ? "#" + h : location.pathname);
+  }
+
+  sync();
+})();
+</script>
+</body>
+</html>
